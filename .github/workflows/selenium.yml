@@ -13,17 +13,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.12" 
+
       - name: Checkout in main-test branch
         uses: actions/checkout@v4
         with:
           ref: "main"
           token: ${{ secrets.CLA_WRITE_ACCESS }}
       
-      - name: Set up Python
-        uses: actions/setup-python@v3
-        with:
-          python-version: "3.x"  # Replace "x" with the appropriate version
-
+     
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
@@ -38,6 +39,10 @@ jobs:
           chmod +x "./Web_drivers/chromedriver-linux64/chromedriver"
           python app.py &
 
+      - name: Install pytest explicitly
+        run: |
+          pip install pytest
+
       - name: Test with pytest
         run: |
           python -m pytest tests/test_selenium.py --html=selenium-test-report.html
@@ -51,4 +56,3 @@ jobs:
             selenium-test-report.html
             selenium-test-report.xml
             Selenium_tests_screenshots
-
