@@ -1,5 +1,3 @@
-# selenium_script.py
-
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.common.action_chains import ActionChains
@@ -21,7 +19,7 @@ chrome_options.add_argument(f'--webdriver={driver_path}')
 driver = webdriver.Chrome(options=chrome_options)
 
 # Open the webpage
-driver.get("http://pd-net-prod-main-1154509397.us-east-1.elb.amazonaws.com/")
+driver.get("http://127.0.0.1:3000/index.html")
 
 # Take a screenshot of the initial page
 driver.save_screenshot("initial_page.png")
@@ -52,3 +50,5 @@ driver.save_screenshot("clicked_submit_button.png")
 
 # Close the browser window
 driver.quit()
+
+
