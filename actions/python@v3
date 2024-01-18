@@ -1,0 +1,59 @@
+name: Selenium Testing
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+permissions: write-all
+
+jobs:
+  selenium-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.12"  # Replace with the appropriate version
+
+      - name: Checkout in main-test branch
+        uses: actions/checkout@v4
+        with:
+          ref: "main"
+          token: ${{ secrets.CLA_WRITE_ACCESS }}
+      
+      # Other steps in your workflow go here
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install pytest
+
+      - name: List the apps installed
+        run: |
+          apt list --installed
+
+      - name: Run the app
+        run: |
+          chmod +x "./Web_drivers/chromedriver-linux64/chromedriver"
+          python app.py &
+
+      - name: Install pytest explicitly
+        run: |
+          pip install pytest
+
+      - name: Test with pytest
+        run: |
+          python -m pytest tests/test_selenium.py --html=selenium-test-report.html
+          python -m pytest tests/test_selenium.py --junitxml=selenium-test-report.xml
+
+      - name: Upload Selenium Test Results
+        uses: actions/upload-artifact@v3
+        with:
+          name: Selenium-testing-results-pytest-selenium
+          path: |
+            selenium-test-report.html
+            selenium-test-report.xml
+            Selenium_tests_screenshots
