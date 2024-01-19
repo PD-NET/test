@@ -1,5 +1,6 @@
 name: Selenium Testing
 
+
 on:
   push:
     branches: [ "main" ]
@@ -25,6 +26,7 @@ jobs:
           token: ${{ secrets.CLA_WRITE_ACCESS }}
       
      
+
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
@@ -56,3 +58,5 @@ jobs:
             selenium-test-report.html
             selenium-test-report.xml
             Selenium_tests_screenshots
+
+   
